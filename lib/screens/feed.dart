@@ -68,7 +68,27 @@ class Feed extends StatelessWidget {
                   final currentPhoto = i % state.imagesPerPage;
                   final image =
                       state.appState.pages[currentPage].photos[currentPhoto];
-                  return Image.network(image.thumbUrl);
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        "/details",
+                        arguments: image,
+                      );
+                    },
+                    child: Hero(
+                      tag: image.id,
+                      child: Image.network(
+                        image.regularUrl,
+                        loadingBuilder: (context, child, progress) =>
+                            progress == null
+                                ? child
+                                : const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                        errorBuilder: (context, e, __) => ErrorWidget(e),
+                      ),
+                    ),
+                  );
                 },
               ),
             );

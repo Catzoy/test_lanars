@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rebloc/rebloc.dart';
 import 'package:test_lanars/api/unsplash_api.dart';
 import 'package:test_lanars/screens/feed.dart';
+import 'package:test_lanars/screens/single_photo.dart';
 
 import 'blocs/app/app_blocs.dart';
 
@@ -33,7 +34,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Feed(),
+      routes: {
+        "/": (context) => Feed(),
+        "/details": (context) => SinglePhoto(),
+      },
     );
   }
 }
