@@ -12,4 +12,8 @@ class ApiPage {
       list.map(ApiPhoto.fromJSON).toList(growable: false),
     );
   }
+
+  static ApiPage fromSearchPhotoJSON(int pageNum, dynamic json) {
+    return fromJSON(pageNum, json["results"]);
+  }
 }
