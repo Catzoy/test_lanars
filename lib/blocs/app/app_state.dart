@@ -14,13 +14,15 @@ abstract class AppState {
 
   factory AppState.initial() => FeedAppState([], 0, FetchStatus.None);
 
-  toNoneFetchStatus();
+  AppState toNoneFetchStatus();
 
-  toLoadingPageState();
+  AppState toLoadingPageState();
 
-  toSucceededLoading(ApiPage newPage);
+  AppState toSucceededLoading(ApiPage newPage);
 
-  toFailedLoading();
+  AppState toSuccessRefresh(ApiPage newPage);
+
+  AppState toFailedLoading();
 }
 
 class FeedAppState extends AppState {
@@ -30,19 +32,22 @@ class FeedAppState extends AppState {
     FetchStatus fetchStatus,
   ) : super(pages, overallNumOfPhotos, fetchStatus);
 
-  toNoneFetchStatus() =>
+  AppState toNoneFetchStatus() =>
       FeedAppState(pages, overallNumOfPhotos, FetchStatus.None);
 
-  toLoadingPageState() =>
+  AppState toLoadingPageState() =>
       FeedAppState(pages, overallNumOfPhotos, FetchStatus.InProgress);
 
-  toSucceededLoading(ApiPage newPage) => FeedAppState(
+  AppState toSucceededLoading(ApiPage newPage) => FeedAppState(
         pages + [newPage],
         overallNumOfPhotos + newPage.photos.length,
-        FetchStatus.InProgress,
+        FetchStatus.Success,
       );
 
-  toFailedLoading() =>
+  AppState toSuccessRefresh(ApiPage newPage) =>
+      FeedAppState([newPage], newPage.photos.length, FetchStatus.Success);
+
+  AppState toFailedLoading() =>
       FeedAppState(pages, overallNumOfPhotos, FetchStatus.Failed);
 }
 
@@ -56,19 +61,22 @@ class PhotoSearchAppState extends AppState {
     FetchStatus fetchStatus,
   ) : super(pages, overallNumOfPhotos, fetchStatus);
 
-  toNoneFetchStatus() =>
+  AppState toNoneFetchStatus() =>
       PhotoSearchAppState(query, pages, overallNumOfPhotos, FetchStatus.None);
 
-  toLoadingPageState() => PhotoSearchAppState(
+  AppState toLoadingPageState() => PhotoSearchAppState(
       query, pages, overallNumOfPhotos, FetchStatus.InProgress);
 
-  toSucceededLoading(ApiPage newPage) => PhotoSearchAppState(
+  AppState toSucceededLoading(ApiPage newPage) => PhotoSearchAppState(
         query,
         pages + [newPage],
         overallNumOfPhotos + newPage.photos.length,
-        FetchStatus.InProgress,
+        FetchStatus.Success,
       );
 
-  toFailedLoading() =>
+  AppState toSuccessRefresh(ApiPage newPage) => PhotoSearchAppState(
+      query, [newPage], newPage.photos.length, FetchStatus.Success);
+
+  AppState toFailedLoading() =>
       PhotoSearchAppState(query, pages, overallNumOfPhotos, FetchStatus.Failed);
 }

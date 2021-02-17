@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   rebloc: ^0.3.0+4
   dio: ^3.0.10
+  pull_to_refresh: ^1.6.3
 
 dev_dependencies:
   flutter_test:

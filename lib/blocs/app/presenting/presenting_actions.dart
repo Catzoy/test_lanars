@@ -14,6 +14,11 @@ class LoadingPageSucceeded extends Action {
   const LoadingPageSucceeded(this.page);
 }
 
+class RefreshFeedSucceeded extends Action {
+  final ApiPage page;
+  const RefreshFeedSucceeded(this.page);
+}
+
 class NotLoadingPage extends Action {
   const NotLoadingPage();
 }
@@ -22,5 +27,6 @@ final presentingFeedActions = [
   LoadingPage,
   LoadingPageFailed,
   LoadingPageSucceeded,
+  RefreshFeedSucceeded,
   NotLoadingPage,
 ];

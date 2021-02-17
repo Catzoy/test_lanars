@@ -19,6 +19,10 @@ class PresentingAppBloc extends SimpleBloc<AppState> {
         final castedAction = action as LoadingPageSucceeded;
         return state.toSucceededLoading(castedAction.page);
 
+      case RefreshFeedSucceeded:
+        final castedAction = action as RefreshFeedSucceeded;
+        return state.toSuccessRefresh(castedAction.page);
+
       case NotLoadingPage:
         return state.toNoneFetchStatus();
 
