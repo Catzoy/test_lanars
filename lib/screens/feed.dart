@@ -56,19 +56,19 @@ class Feed extends StatelessWidget {
               enablePullUp: true,
               onRefresh: () => dispatcher(const RefreshFeed()),
               onLoading: () => dispatcher(const LoadNextPage()),
-              child: ListView.builder(
+              child: GridView.builder(
                 itemCount: state.appState.overallNumOfPhotos,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 12.0,
+                  mainAxisSpacing: 8.0,
+                ),
                 itemBuilder: (context, i) {
                   final currentPage = i ~/ state.imagesPerPage;
                   final currentPhoto = i % state.imagesPerPage;
                   final image =
                       state.appState.pages[currentPage].photos[currentPhoto];
-                  return ListTile(
-                    leading: Image.network(
-                      image.thumbUrl,
-                    ),
-                    title: Text("Image(${image.id})"),
-                  );
+                  return Image.network(image.thumbUrl);
                 },
               ),
             );
