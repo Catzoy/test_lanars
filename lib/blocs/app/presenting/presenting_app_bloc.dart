@@ -10,20 +10,17 @@ class PresentingAppBloc extends SimpleBloc<AppState> {
   AppState reducer(AppState state, Action action) {
     switch (action.runtimeType) {
       case LoadingPage:
-        return state.copy(fetchStatus: FetchStatus.InProgress);
+        return state.toLoadingPageState();
 
       case LoadingPageFailed:
-        return state.copy(fetchStatus: FetchStatus.Failed);
+        return state.toFailedLoading();
 
       case LoadingPageSucceeded:
         final castedAction = action as LoadingPageSucceeded;
-        return state.copy(
-          pages: state.pages + [castedAction.page],
-          fetchStatus: FetchStatus.Success,
-        );
+        return state.toSucceededLoading(castedAction.page);
 
       case NotLoadingPage:
-        return state.copy(fetchStatus: FetchStatus.None);
+        return state.toNoneFetchStatus();
 
       default:
         return state;

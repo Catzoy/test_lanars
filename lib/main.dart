@@ -1,8 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:rebloc/rebloc.dart';
+import 'package:test_lanars/api/unsplash_api.dart';
 import 'package:test_lanars/screens/feed.dart';
 
+import 'blocs/app/app_blocs.dart';
+
 void main() {
-  runApp(MyApp());
+  final unsplashApi = UnsplashApi();
+
+  final store = Store(
+    initialState: AppState.initial(),
+    blocs: [
+      PhotosFeedBloc(unsplashApi),
+      SearchPhotoBloc(unsplashApi),
+      PresentingAppBloc(),
+    ],
+  );
+
+  runApp(
+    StoreProvider(
+      store: store,
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
