@@ -35,6 +35,6 @@ class UnsplashApi {
       },
     );
 
-    return ApiPage.fromJSON(page, response.data);
+    return ApiPage.fromSearchPhotoJSON(page, response.data);
   }
 }

@@ -8,4 +8,14 @@ class RefreshFeed extends Action {
   const RefreshFeed();
 }
 
-final mutatingAppStateActions = [LoadNextPage, RefreshFeed];
+class StartSearch extends Action {
+  final String query;
+  const StartSearch(this.query);
+}
+
+class EndSearch extends Action {
+  const EndSearch();
+}
+
+final feedManipulationActions = [LoadNextPage, RefreshFeed];
+final searchManipulationActions = [StartSearch, EndSearch];

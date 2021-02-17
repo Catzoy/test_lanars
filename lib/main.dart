@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rebloc/rebloc.dart';
 import 'package:test_lanars/api/unsplash_api.dart';
+import 'package:test_lanars/blocs/app/mutating/search_control_bloc.dart';
 import 'package:test_lanars/screens/feed.dart';
 import 'package:test_lanars/screens/single_photo.dart';
 
@@ -12,6 +13,7 @@ void main() {
   final store = Store(
     initialState: AppState.initial(),
     blocs: [
+      SearchControlBloc(),
       PhotosFeedBloc(unsplashApi),
       SearchPhotoBloc(unsplashApi),
       PresentingAppBloc(),

@@ -3,6 +3,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rebloc/rebloc.dart';
 import 'package:test_lanars/blocs/app/app_state.dart';
 import 'package:test_lanars/blocs/app/mutating/side_effect_actions.dart';
+import 'package:test_lanars/screens/widgets/photo_preview_tile.dart';
+import 'package:test_lanars/screens/widgets/scaffold_with_search_bar.dart';
 
 class _FeedState {
   final AppState appState;
@@ -45,13 +47,13 @@ class Feed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: SafeArea(
-        child: ViewModelSubscriber<AppState, _FeedState>(
-          converter: _convert,
-          builder: (context, dispatcher, _FeedState state) {
-            return SmartRefresher(
+    return ViewModelSubscriber<AppState, _FeedState>(
+      converter: _convert,
+      builder: (context, dispatcher, _FeedState state) {
+        return ScaffoldWithSearchBar(
+          dispatcher: dispatcher,
+          body: SafeArea(
+            child: SmartRefresher(
               controller: controller,
               enablePullUp: true,
               onRefresh: () => dispatcher(const RefreshFeed()),
@@ -68,33 +70,13 @@ class Feed extends StatelessWidget {
                   final currentPhoto = i % state.imagesPerPage;
                   final image =
                       state.appState.pages[currentPage].photos[currentPhoto];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        "/details",
-                        arguments: image,
-                      );
-                    },
-                    child: Hero(
-                      tag: image.id,
-                      child: Image.network(
-                        image.regularUrl,
-                        loadingBuilder: (context, child, progress) =>
-                            progress == null
-                                ? child
-                                : const Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                        errorBuilder: (context, e, __) => ErrorWidget(e),
-                      ),
-                    ),
-                  );
+                  return PhotoPreviewTile(image: image);
                 },
               ),
-            );
-          },
-        ),
-      ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
